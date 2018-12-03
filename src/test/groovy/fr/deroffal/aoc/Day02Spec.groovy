@@ -1,13 +1,13 @@
 package fr.deroffal.aoc
 
-import kotlin.Pair
+import fr.deroffal.aoc.utils.Files
 import spock.lang.Specification
 
 class Day02Spec extends Specification {
 
     Day02 day02 = new Day02()
 
-    def "GroupByCountOfAppearance"() {
+    void "GroupByCountOfAppearance"() {
         when:
         List<Integer> list = day02.countAppearences(text)
         then:
@@ -25,9 +25,9 @@ class Day02Spec extends Specification {
 
     }
 
-    def 'part1'() {
+    def 'Checkshum should match example'() {
         when:
-        def score = day02.part1(['abcdef', 'bababc', 'abbcde', 'abcccd', 'aabcdd', 'abcdee', 'ababab'])
+        def score = day02.computeChecksum(['abcdef', 'bababc', 'abbcde', 'abcccd', 'aabcdd', 'abcdee', 'ababab'])
         then:
         score == 12
     }
@@ -51,10 +51,23 @@ class Day02Spec extends Specification {
         ids.second == 'fguij'
     }
 
-    def 'part2'() {
+    def 'part2 - example'() {
         when:
-        def result = day02.part2(['abcde', 'fghij', 'klmno', 'pqrst', 'fguij', 'axcye', 'wvxyz'])
+        def result = day02.findCommonLettersInCorrectIds(['abcde', 'fghij', 'klmno', 'pqrst', 'fguij', 'axcye', 'wvxyz'])
         then:
         result == 'fgij'
+    }
+
+    void 'Day02'() {
+        given: 'Input day 02'
+        List<String> input = Files.readAsList("day02.txt")
+        when: 'Part 1'
+        Integer part1 = day02.computeChecksum(input)
+        then:
+        7872 == part1
+        when: 'Part 2'
+        String part2 = day02.findCommonLettersInCorrectIds(input)
+        then:
+        'tjxmoewpdkyaihvrndfluwbzc' == part2
     }
 }
