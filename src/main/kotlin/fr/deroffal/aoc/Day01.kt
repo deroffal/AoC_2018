@@ -1,6 +1,7 @@
 package fr.deroffal.aoc
 
 import fr.deroffal.aoc.utils.Files.readAsList
+import fr.deroffal.aoc.utils.repeat
 
 fun main(args: Array<String>) {
     val input = readAsList("day01.txt")
@@ -11,20 +12,17 @@ fun main(args: Array<String>) {
 class Day01 {
     fun computeResultingFrequency(input: List<String>): Int = input.map { it.toInt() }.sum()
 
-    //TODO https://stackoverflow.com/questions/48007311/how-do-i-infinitely-repeat-a-sequence-in-kotlin
     fun findFirstFrequencyRepeatedTwice(input: List<String>): Int {
         var currentFrequency = 0
         val frequencies = mutableSetOf(currentFrequency)
-
-        while (true) {
-            input.forEach {
-                currentFrequency += it.toInt()
-                if (!frequencies.contains(currentFrequency)) {
-                    frequencies.add(currentFrequency)
-                } else {
-                    return currentFrequency
-                }
+        input.map { it.toInt() }.repeat().forEach {
+            currentFrequency += it
+            if (!frequencies.contains(currentFrequency)) {
+                frequencies.add(currentFrequency)
+            } else {
+                return currentFrequency
             }
         }
+        throw Exception()
     }
 }

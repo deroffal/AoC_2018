@@ -4,14 +4,14 @@ import fr.deroffal.aoc.utils.Files
 
 fun main(args: Array<String>) {
     val input = Files.readAsList("day02.txt")
-    println("Part 1 : ${Day02().part1(input)}")
-    println("Part 2 : ${Day02().part2(input)}")
+    println("Part 1 : ${Day02().computeChecksum(input)}")
+    println("Part 2 : ${Day02().findCommonLettersInCorrectIds(input)}")
 }
 
 class Day02 {
 
     fun countAppearences(text: String) = text.toCharArray().toSet().map { char: Char -> text.filter { it == char }.count() }
-    fun part1(input: List<String>): Int {
+    fun computeChecksum(input: List<String>): Int {
         var score2 = 0
         var score3 = 0
         input.forEach {
@@ -26,17 +26,14 @@ class Day02 {
     private fun idsMatching(id1: String, id2: String) = (id1 zip id2).filter { it.first == it.second }.size == id1.length - 1
 
     private fun findPairOfIds(input: List<String>): Pair<String, String> {
-        val idsIterator = input.iterator()
-        var pair: Pair<String, String>? = null
-        while (idsIterator.hasNext() && pair == null) {
-            val id1 = idsIterator.next()
-            val id2 = input.filter { id1 != it }.find { idsMatching(id1, it) }
-            if (id2 != null) pair = Pair(id1, id2)
+        input.forEach {
+            val id2Candidate = input.filter { id -> it != id }.find { id -> idsMatching(it, id) }
+            if (id2Candidate != null) return Pair(it, id2Candidate)
         }
-        return pair!!
+        throw Exception()
     }
 
-    fun part2(input: List<String>): String {
+    fun findCommonLettersInCorrectIds(input: List<String>): String {
         val pairOfIds = findPairOfIds(input)
         return (pairOfIds.first zip pairOfIds.second).filter { it.first == it.second }.map { it.first }.joinToString(separator = "")
     }

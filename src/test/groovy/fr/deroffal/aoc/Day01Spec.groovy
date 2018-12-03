@@ -1,5 +1,6 @@
 package fr.deroffal.aoc
 
+import fr.deroffal.aoc.utils.Files
 import spock.lang.Specification
 
 class Day01Spec extends Specification {
@@ -31,5 +32,18 @@ class Day01Spec extends Specification {
         ['+3', '+3', '+4', '-2', '-4'] || 10
         ['-6', '+3', '+8', '+5', '-6'] || 5
         ['+7', '+7', '-2', '-7', '-4'] || 14
+    }
+
+    void 'Day01'() {
+        given: 'Input day 01'
+        List<String> input = Files.readAsList("day01.txt")
+        when: 'Part 1'
+        Integer part1 = day01.computeResultingFrequency(input)
+        then:
+        582 == part1
+        when: 'Part 2'
+        Integer part2 = day01.findFirstFrequencyRepeatedTwice(input)
+        then:
+        488 == part2
     }
 }
