@@ -2,6 +2,8 @@ package fr.deroffal.aoc
 
 import spock.lang.Specification
 
+import static fr.deroffal.aoc.utils.Files.readAsList
+
 class Day03Spec extends Specification {
 
     Day03 day03 = new Day03()
@@ -52,5 +54,18 @@ class Day03Spec extends Specification {
         Integer claimId = day03.findClaimNotOverlaped(['#1 @ 1,3: 4x4', '#2 @ 3,1: 4x4', '#3 @ 5,5: 2x2'], 11, 9)
         then:
         3 == claimId
+    }
+
+    void 'Day03'() {
+        given: 'Input day 03'
+        List<String> input = readAsList("day03.txt")
+        when: 'Part 1'
+        Integer part1 = day03.countSquareInchesInAtLeastTwoClaims(input, 1000, 1000)
+        then:
+        114946 == part1
+        when: 'Part 2'
+        Integer part2 = day03.findClaimNotOverlaped(input, 1000, 1000)
+        then:
+        877 == part2
     }
 }
