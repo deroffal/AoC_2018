@@ -10,16 +10,14 @@ fun main(args: Array<String>) {
 
 class Day02 {
 
-    fun countAppearences(text: String) = text.toCharArray().toSet().map { char: Char -> text.filter { it == char }.count() }
+    fun countAppearences(text: String) = text.toCharArray()
+            .groupBy { it }.mapValues { it.value.size } //[char: listOfThisChar]
+            .entries.groupBy({ it.value }, { it.key })  //[count: listOfEachChar]
+            .keys                                       //[actual counts]
+
     fun computeChecksum(input: List<String>): Int {
-        var score2 = 0
-        var score3 = 0
-        input.forEach {
-            val appearences = countAppearences(it)
-            if (appearences.contains(2)) score2++
-            if (appearences.contains(3)) score3++
-        }
-        return score2 * score3
+        val map = input.map { countAppearences(it) }
+        return map.filter { it.contains(2) }.count() * map.filter { it.contains(3) }.count()
     }
 
     //only one different char over the 2 ids

@@ -9,10 +9,10 @@ class Day02Spec extends Specification {
 
     void "GroupByCountOfAppearance"() {
         when:
-        List<Integer> list = day02.countAppearences(text)
+        Set<Integer> appearences = day02.countAppearences(text)
         then:
-        hasAnyLetterAppearingTwice == list.contains(2)
-        hasAnyLetterAppearingThreeTimes == list.contains(3)
+        hasAnyLetterAppearingTwice == appearences.contains(2)
+        hasAnyLetterAppearingThreeTimes == appearences.contains(3)
         where:
         text     || hasAnyLetterAppearingTwice || hasAnyLetterAppearingThreeTimes
         'abcdef' || false                      || false
@@ -22,7 +22,6 @@ class Day02Spec extends Specification {
         'aabcdd' || true                       || false
         'abcdee' || true                       || false
         'ababab' || false                      || true
-
     }
 
     def 'Checkshum should match example'() {

@@ -19,21 +19,18 @@ class Day04 {
         val records: MutableList<Record> = mutableListOf()
 
         var record: Record? = null
-        var time = 0
+        var minutes = 0
 
-        input.sortedBy { it }
+        input.sorted()
                 .forEach {
                     when {
                         it.contains("#") -> {
                             record = parseBeginShiftsLineToRecord(it)
                             records.add(record!!)
                         }
-                        it.contains("falls asleep") -> time = parseTime(it).minute
-                        it.contains("wakes up") -> {
-                            val wakeUpMinute = parseTime(it).minute
-                            record?.minutesAwaken?.addAll(time until wakeUpMinute)
-                        }
-                        else -> throw IllegalArgumentException()
+                        it.contains("falls asleep") -> minutes = parseTime(it).minute
+                        else -> record?.minutesAwaken?.addAll(minutes until parseTime(it).minute)
+
                     }
                 }
         return records
@@ -45,39 +42,39 @@ class Day04 {
     }
 
     private fun parseTime(line: String) = LocalTime.parse(line.substringBetween(" ", "]"))
-    private fun parseDate(line: String) = LocalDate.parse(line.substringBetween("[", " "), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+    private fun parseDate(line: String) = LocalDate.parse(line.substringBetween("[", " "))
 
     fun applyStrategy1(input: List<String>): Int {
-        val records = parseToRecords(input)
+        val recordsByGuard = parseToRecords(input).groupBy { it.id }
 
         val laziestGuardId =
-                records.groupBy { it.id } //records by guards
-                        .mapValues { map -> map.value.map { it.minutesAwaken }.flatten().count() } //map each record to the sum of its minutes
-                        .entries.sortedByDescending { it.value }.first().key //sort and find who's sleeping the most
+                recordsByGuard.maxBy {
+                    it.value.map { record -> record.minutesAwaken }.flatten().count()
+                }!!.key
 
         val minute =
-                records.filter { it.id == laziestGuardId }//laziest guard's record
+                recordsByGuard[laziestGuardId]!!
                         .map { it.minutesAwaken }.flatten()//list of all (duplicated) minutes asleep
-                        .groupBy { it }.mapValues { it.value.size }// map [minute:count]
-                        .entries.sortedByDescending { it.value }.first().key // find the minute when he's the most often asleep
+                        .groupBy { it } //group each minute with all the same minutes
+                        .maxBy { it.value.size }!!.key // find the minute when he's the most often asleep
 
 
         return laziestGuardId * minute
     }
 
     fun applyStrategy2(input: List<String>): Int {
-        val records = parseToRecords(input)
-        val occurencesOfMinuteAsleepByGuard = records.groupBy { it.id } //records by guards
+        val recordsByGuard = parseToRecords(input).groupBy { it.id }
+        val occurencesOfMinuteAsleepByGuard = recordsByGuard
                 .mapValues { map ->
                     map.value.map { it.minutesAwaken }.flatten()//map each record to all of its minutes
                             .groupBy { it }.mapValues { it.value.size }//value = [minute:count]
                 }.filter { !it.value.isEmpty() } //no need guars who doesn't sleep
 
         val first = occurencesOfMinuteAsleepByGuard
-                .mapValues { map ->
-                    map.value.entries.sortedByDescending { it.value }.first()
-                }.entries.sortedByDescending { it.value.value }.first()
+                .mapValues { map -> map.value.maxBy { it.value }!! }
+                .maxBy { it.value.value }!!
 
         return first.key * first.value.key
     }
 }
+
