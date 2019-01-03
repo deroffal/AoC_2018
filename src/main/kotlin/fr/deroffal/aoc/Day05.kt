@@ -31,5 +31,4 @@ class Day05 {
 
     private fun Char.sameTypeAndOppositePolarity(other: Char) = this.equalsIgnoreCase(other) && (this.isLowerCase() != other.isLowerCase())
     private fun Pair<Char, Char>.asString() = "${this.first}${this.second}"
-    private fun Pair<Char, Char>.reverse() = Pair(this.second, this.first)
 }

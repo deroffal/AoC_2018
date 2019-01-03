@@ -177,10 +177,10 @@ class Day04Spec extends Specification {
         when: 'Part 1'
         int part1 = day04.applyStrategy1(input)
         then:
-        21083 == part1
+        part1 == 21083
         when: 'Part 2'
         int part2 = day04.applyStrategy2(input)
         then:
-        53024 == part2
+        part2 == 53024
     }
 }

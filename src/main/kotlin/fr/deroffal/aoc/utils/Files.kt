@@ -1,7 +1,6 @@
 package fr.deroffal.aoc.utils
 
 import java.io.File
-import java.io.FileNotFoundException
 
 /**
  * @JvmStatic allows to use functions as static in groovy
@@ -17,8 +16,4 @@ internal object Files {
 
     @JvmStatic
     fun readAsList(fileName: String) = File(ClassLoader.getSystemResource(fileName).toURI()).readLines()
-
-    @JvmStatic
-    fun readAndSplit(fileName: String, delimiter: String) = readAsString(fileName).split(delimiter)
-
 }

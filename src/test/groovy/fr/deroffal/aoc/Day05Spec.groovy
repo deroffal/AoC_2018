@@ -1,10 +1,8 @@
 package fr.deroffal.aoc
 
-import fr.deroffal.aoc.utils.ExtensionsKt
 import spock.lang.Specification
-import spock.lang.Unroll
 
-import static fr.deroffal.aoc.utils.Files.readAsList
+import static fr.deroffal.aoc.utils.Files.readAsString
 
 class Day05Spec extends Specification {
 
@@ -44,14 +42,14 @@ class Day05Spec extends Specification {
 
     void 'Day05'() {
         given:
-        String input = readAsList('day05.txt')
+        String input = readAsString('day05.txt')
         when: 'Part 1'
         int part1 = day05.reducePolymere(input)
         then:
-        9238 == part1
+        part1 == 9238
         when: 'Part 2'
         int part2 = day05.findUnitCausingProblems(input)
         then:
-        4052 == part2
+        part2 == 4052
     }
 }

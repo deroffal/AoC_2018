@@ -4,7 +4,6 @@ import fr.deroffal.aoc.utils.Files.readAsList
 import fr.deroffal.aoc.utils.substringBetween
 import java.time.LocalDate
 import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 
 fun main(args: Array<String>) {
     val input = readAsList("day04.txt")

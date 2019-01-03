@@ -2,6 +2,7 @@ package fr.deroffal.aoc
 
 import fr.deroffal.aoc.utils.Files.readAsList
 import fr.deroffal.aoc.utils.substringBetween
+import fr.deroffal.aoc.utils.times
 
 fun main(args: Array<String>) {
     val input = readAsList("day03.txt")
@@ -39,11 +40,7 @@ class Day03 {
     }
 
     private fun findSquareWithAtLeastTwoClaims(yMax: Int, xMax: Int, input: List<String>): List<SquareInch> {
-        val squareInches: List<SquareInch> = (0 until yMax).flatMap { w ->
-            (0 until xMax).map { h ->
-                SquareInch(w, h)
-            }
-        }
+        val squareInches: List<SquareInch> = ((0 until yMax) * (0 until xMax)).map { SquareInch(it.second, it.first) }
         val claims = input.map { Claim.fromString(it) }
         return squareInches.filter { claims.filter { claim -> it.isInClaim(claim) }.count() >= 2 }
     }

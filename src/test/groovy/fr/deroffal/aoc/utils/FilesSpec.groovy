@@ -2,7 +2,8 @@ package fr.deroffal.aoc.utils
 
 import spock.lang.Specification
 
-import static fr.deroffal.aoc.utils.Files.*
+import static fr.deroffal.aoc.utils.Files.readAsList
+import static fr.deroffal.aoc.utils.Files.readAsString
 
 
 class FilesSpec extends Specification {
@@ -50,16 +51,5 @@ class FilesSpec extends Specification {
                 'convallis ligula justo id lorem. Etiam ornare massa sed mauris molestie cursus ut sit amet eros. Vivamus quis posuere risus. Nullam et enim lectus. Proin a mattis arcu. ' +
                 'Ut faucibus mauris arcu, vel vulputate mi vulputate in. Pellentesque dapibus dictum orci, sit amet maximus lacus interdum sodales.' == lines[4]
 
-    }
-
-    void 'Read an split one line'() {
-        when:
-        List<String> splitedByComma = readAndSplit('utils/lineToSplit.txt', ',')
-        then:
-        ['A', 'B', 'C;D', 'E', 'F;G', 'H', 'I'] == splitedByComma
-        when:
-        List<String> splitedBySemicolon = readAndSplit('utils/lineToSplit.txt', ';')
-        then:
-        ['A,B,C', 'D,E,F', 'G,H,I'] == splitedBySemicolon
     }
 }
